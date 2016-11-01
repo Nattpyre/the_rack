@@ -1,0 +1,25 @@
+@import '../variables.css';
+
+.root {
+  display : flex;
+  height  : 100vh;
+}
+
+.container {
+  display         : flex;
+  align-items     : center;
+  justify-content : center;
+  width           : 50%;
+  background      : no-repeat center / cover;
+  color           : white;
+  font-size       : 3em;
+  text-decoration : none;
+  filter          : grayscale(100%);
+  transition      : filter .66s;
+  text-shadow     : 0.25rem 0.25rem 0.5rem black;
+}
+
+.container:hover,
+.container:focus {
+  filter : none;
+}

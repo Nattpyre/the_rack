@@ -1,0 +1,60 @@
+@import '../../components/variables.css';
+
+[type="button"] {
+  -webkit-appearance : inherit !important;
+}
+
+.container {
+  display   : flex;
+  max-width : var(--max-content-width);
+  margin    : 0 auto;
+  padding   : 1rem;
+}
+
+.container > div {
+  width   : 50%;
+  padding : 0 0.5rem;
+}
+
+.photo {
+  min-height : 375px;
+}
+
+.productName {
+  margin : 0;
+}
+
+.addButton {
+  position : relative;
+  top      : 0.25rem;
+}
+
+.divider {
+  display      : inline-block;
+  position     : relative;
+  top          : 1.25rem;
+  margin       : 0 1rem;
+  border-right : 1px solid black;
+  height       : 2.5rem;
+}
+
+.about {
+  margin : 1rem 0;
+}
+
+.swipe {
+  position   : relative;
+  overflow   : hidden;
+  visibility : hidden;
+}
+
+.swipe-wrap {
+  position : relative;
+  overflow : hidden;
+}
+
+.swipe-wrap > div {
+  position : relative;
+  width    : 100%;
+  float    : left;
+}

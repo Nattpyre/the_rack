@@ -1,0 +1,6 @@
+{
+  "name": "BrandsList",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./BrandsList.jsx"
+}
