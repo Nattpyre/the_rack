@@ -18,7 +18,7 @@ export default function cart(state = initialState, action) {
     case constants.types.REMOVE_FROM_CART:
       return {
         ...state,
-        products: _.filter(state.products, product => !_.isEqual(product, action.payload.product)),
+        products: state.products.filter(product => !_.isEqual(product, action.payload.product)),
       };
     default:
       return state;

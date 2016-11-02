@@ -7,12 +7,11 @@ import { SelectField, MenuItem, RaisedButton, Snackbar } from 'material-ui';
 import AddCart from 'material-ui/svg-icons/action/add-shopping-cart';
 import NukaCarousel from 'nuka-carousel';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import Link from '../../components/Link';
 import Layout from '../../components/Layout';
 import constants from '../../constants';
 import s from './Product.css';
-import * as cartActions from '../../actions/cart';
+import { addToCart, removeFromCart } from '../../actions/cart';
 
 class Product extends React.Component {
   constructor(props) {
@@ -25,15 +24,19 @@ class Product extends React.Component {
 
   changeSize = (event, index, size) => this.setState({ size });
 
-  addToCart = () => {
+  handleAddToCart = () => {
     this.setState({ snackBarIsOpen: true }, () => {
-      this.props.addToCart(Object.assign({}, this.props.product, { size: this.state.size }));
+      this.props.dispatch(
+        addToCart(Object.assign({}, this.props.product, { size: this.state.size }))
+      );
     });
   };
 
-  removeFromCart = () => {
+  handleRemoveFromCart = () => {
     this.setState({ snackBarIsOpen: false }, () => {
-      this.props.removeFromCart(Object.assign({}, this.props.product, { size: this.state.size }));
+      this.props.dispatch(
+        removeFromCart(Object.assign({}, this.props.product, { size: this.state.size }))
+      );
     });
   };
 
@@ -52,10 +55,10 @@ class Product extends React.Component {
                 _.isEmpty(product.photos) ?
                   <img src={constants.placeholder} alt={product.name} />
                   : <NukaCarousel {...carouselOpts}>
-                    {_.map(product.photos, (photo, index) => (
-                      <img key={index} src={photo} alt={index} className={s.photo} />
-                    ))}
-                  </NukaCarousel>
+                  {product.photos.map((photo, index) => (
+                    <img key={index} src={photo} alt={index} className={s.photo} />
+                  ))}
+                </NukaCarousel>
               }
             </div>
             <div className={s.info}>
@@ -76,7 +79,7 @@ class Product extends React.Component {
                 </SelectField>
                 <div className={s.divider} />
                 <RaisedButton
-                  onTouchTap={this.addToCart}
+                  onTouchTap={this.handleAddToCart}
                   className={s.addButton}
                   label="Add to Cart"
                   primary
@@ -96,7 +99,7 @@ class Product extends React.Component {
             message={`${product.name} has been added to your cart`}
             action="undo"
             autoHideDuration={constants.autoHide}
-            onActionTouchTap={this.removeFromCart}
+            onActionTouchTap={this.handleRemoveFromCart}
             onRequestClose={() => this.setState({ snackBarIsOpen: false })}
           />
         </div>
@@ -121,8 +124,7 @@ Product.propTypes = {
     }).isRequired,
   }).isRequired,
   sizes: PropTypes.arrayOf(PropTypes.oneOf(['XS', 'S', 'M', 'L', 'XL'])).isRequired,
-  addToCart: PropTypes.func.isRequired,
-  removeFromCart: PropTypes.func.isRequired,
+  dispatch: PropTypes.func,
 };
 
 function mapStateToProps(state) {
@@ -131,12 +133,6 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    ...cartActions,
-  }, dispatch);
-}
-
-const ConnectedProduct = connect(mapStateToProps, mapDispatchToProps)(Product);
+const ConnectedProduct = connect(mapStateToProps)(Product);
 
 export default withStyles(s)(ConnectedProduct);

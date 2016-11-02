@@ -1,4 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies, react/no-unused-prop-types */
+/* eslint-disable react/no-unused-prop-types */
 
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
@@ -20,7 +20,7 @@ const styles = {
   },
 };
 
-function BrandsList({ brands }) {
+const BrandsList = ({ brands }) => {
   const hasBrands = !_.isEmpty(brands);
 
   return (
@@ -31,7 +31,7 @@ function BrandsList({ brands }) {
       >
         <Subheader style={styles.subHeader}>Popular Brands</Subheader>
         {hasBrands ?
-          _.map(brands, (brand, index) => (
+          brands.map((brand, index) => (
             <GridTile key={index}>
               <Link to={`/brands/${brand.vanityName}`} className={s.link}>
                 <img src={brand.logo} alt={brand.name} className={s.logo} />
@@ -45,7 +45,7 @@ function BrandsList({ brands }) {
       <Divider style={styles.divider} />
     </div>
   );
-}
+};
 
 BrandsList.propTypes = {
   brands: PropTypes.arrayOf(PropTypes.shape({
@@ -53,6 +53,7 @@ BrandsList.propTypes = {
     logo: PropTypes.string.isRequired,
     vanityName: PropTypes.string.isRequired,
   })).isRequired,
+  dispatch: PropTypes.func,
 };
 
 export default withStyles(s)(BrandsList);

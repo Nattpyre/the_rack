@@ -62,13 +62,12 @@ app.get('*', async(req, res, next) => {
   const history = createMemoryHistory({
     initialEntries: [req.url],
   });
-  // let currentLocation = history.getCurrentLocation();
+
   let sent = false;
   const removeHistoryListener = history.listen(location => {
     const newUrl = `${location.pathname}${location.search}`;
 
     if (req.originalUrl !== newUrl) {
-      // console.log(`R ${req.originalUrl} -> ${newUrl}`); // eslint-disable-line no-console
       if (!sent) {
         res.redirect(303, newUrl);
         sent = true;
@@ -91,21 +90,12 @@ app.get('*', async(req, res, next) => {
     }));
 
     const css = new Set();
-
-    // Global (context) variables that can be easily accessed from any React component
-    // https://facebook.github.io/react/docs/context.html
     const context = {
-      // Navigation manager, e.g. history.push('/home')
-      // https://github.com/mjackson/history
       history,
-      // Enables critical path CSS rendering
-      // https://github.com/kriasoft/isomorphic-style-loader
       insertCss: (...styles) => {
         // eslint-disable-next-line no-underscore-dangle
         styles.forEach(style => css.add(style._getCss()));
       },
-      // Initialize a new Redux store
-      // http://redux.js.org/docs/basics/UsageWithReact.html
       store,
     };
 

@@ -5,21 +5,19 @@ import Layout from '../../components/Layout';
 import ProductsList from '../../components/ProductsList';
 import s from './Brand.css';
 
-function Brand({ brand }) {
-  return (
-    <Layout>
-      <div className={s.root}>
-        <div className={s.container}>
-          <img className={s.logo} src={brand.logo} alt={brand.name} />
-          <h1>{brand.name}</h1>
-          <p>{brand.description}</p>
-          <Divider />
-        </div>
-        <ProductsList products={brand.products} />
+const Brand = ({ brand }) => (
+  <Layout>
+    <div className={s.root}>
+      <div className={s.container}>
+        <img className={s.logo} src={brand.logo} alt={brand.name} />
+        <h1>{brand.name}</h1>
+        <p>{brand.description}</p>
+        <Divider />
       </div>
-    </Layout>
-  );
-}
+      <ProductsList products={brand.products} />
+    </div>
+  </Layout>
+);
 
 Brand.propTypes = {
   brand: PropTypes.shape({

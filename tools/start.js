@@ -18,8 +18,6 @@ async function start() {
   await run(clean);
   await run(copy.bind(undefined, { watch: true }));
   await new Promise(resolve => {
-    // Patch the client-side bundle configurations
-    // to enable Hot Module Replacement (HMR) and React Transform
     webpackConfig.filter(x => x.target !== 'node').forEach(config => {
       /* eslint-disable no-param-reassign */
       config.entry = ['webpack-hot-middleware/client'].concat(config.entry);
@@ -34,8 +32,6 @@ async function start() {
         .forEach(x => (x.query = {
           ...x.query,
 
-          // Wraps all React components into arbitrary transforms
-          // https://github.com/gaearon/babel-plugin-react-transform
           plugins: [
             ...(x.query ? x.query.plugins : []),
             ['react-transform', {
@@ -58,16 +54,8 @@ async function start() {
 
     const bundler = webpack(webpackConfig);
     const wpMiddleware = webpackMiddleware(bundler, {
-
-      // IMPORTANT: webpack middleware can't access config,
-      // so we should provide publicPath by ourselves
       publicPath: webpackConfig[0].output.publicPath,
-
-      // Pretty colored output
       stats: webpackConfig[0].stats,
-
-      // For other settings see
-      // https://webpack.github.io/docs/webpack-dev-middleware
     });
     const hotMiddlewares = bundler
       .compilers
@@ -86,8 +74,6 @@ async function start() {
               middleware: [wpMiddleware, ...hotMiddlewares],
             },
 
-            // no need to watch '*.js' here, webpack will take care of it for us,
-            // including full page reloads if HMR won't work
             files: ['build/content/**/*.*'],
           }, resolve);
           handleServerBundleComplete = runServer;

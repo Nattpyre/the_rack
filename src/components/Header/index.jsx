@@ -1,4 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies, react/no-unused-prop-types */
+/* eslint-disable react/no-unused-prop-types */
 
 import React, { Component, PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
@@ -6,10 +6,8 @@ import { AppBar, Badge, Divider, Drawer, MenuItem, Subheader } from 'material-ui
 import ShoppingCart from 'material-ui/svg-icons/action/shopping-cart';
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import Link from '../Link';
 import s from './Header.css';
-import * as cartActions from '../../actions/cart';
 
 const badgeStyle = {
   width: 20,
@@ -87,6 +85,7 @@ Header.propTypes = {
   cart: PropTypes.shape({
     products: PropTypes.array.isRequired,
   }),
+  dispatch: PropTypes.func,
 };
 
 function mapStateToProps(state) {
@@ -95,12 +94,6 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    ...cartActions,
-  }, dispatch);
-}
-
-const ConnectedHeader = connect(mapStateToProps, mapDispatchToProps)(Header);
+const ConnectedHeader = connect(mapStateToProps)(Header);
 
 export default withStyles(s)(ConnectedHeader);

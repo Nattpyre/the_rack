@@ -8,7 +8,7 @@ import BrandsList from '../../components/BrandsList';
 import ProductsList from '../../components/ProductsList';
 import s from './Home.css';
 
-function Home({ brands, products }) {
+const Home = ({ brands, products }) => {
   return (
     <Layout>
       <div className={s.root}>
@@ -18,7 +18,7 @@ function Home({ brands, products }) {
       </div>
     </Layout>
   );
-}
+};
 
 Home.propTypes = {
   brands: PropTypes.arrayOf(PropTypes.shape({

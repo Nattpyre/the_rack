@@ -3,10 +3,9 @@ import runServer from './runServer';
 import fs from './lib/fs';
 import { host } from '../src/config';
 
-// Enter your paths here which you want to render as static
 const routes = [
   '/',
-  '/404', // https://help.github.com/articles/creating-a-custom-404-page-for-your-github-pages-site/
+  '/404',
 ];
 
 async function render() {

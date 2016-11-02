@@ -1,4 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies, react/no-unused-prop-types */
+/* eslint-disable react/no-unused-prop-types */
 
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
@@ -21,7 +21,7 @@ const styles = {
   },
 };
 
-function ProductsList({ products }) {
+const ProductsList = ({ products }) => {
   const hasProducts = !_.isEmpty(products);
 
   return (
@@ -32,7 +32,7 @@ function ProductsList({ products }) {
       >
         <Subheader style={styles.subHeader}>Popular Products</Subheader>
         {hasProducts ?
-          _.map(products, (product, index) => (
+          products.map((product, index) => (
             <GridTile
               key={index}
               title={product.name}
@@ -53,7 +53,7 @@ function ProductsList({ products }) {
       <Divider style={styles.divider} />
     </div>
   );
-}
+};
 
 ProductsList.propTypes = {
   products: PropTypes.arrayOf(PropTypes.shape({

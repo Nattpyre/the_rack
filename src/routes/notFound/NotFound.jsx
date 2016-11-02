@@ -3,18 +3,16 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import Layout from '../../components/Layout';
 import s from './NotFound.css';
 
-function NotFound({ title }) {
-  return (
-    <Layout full={false}>
-      <div className={s.root}>
-        <div className={s.container}>
-          <h1>{title}</h1>
-          <p>Sorry, the page you were trying to view does not exist.</p>
-        </div>
+const NotFound = ({ title }) => (
+  <Layout full={false}>
+    <div className={s.root}>
+      <div className={s.container}>
+        <h1>{title}</h1>
+        <p>Sorry, the page you were trying to view does not exist.</p>
       </div>
-    </Layout>
-  );
-}
+    </div>
+  </Layout>
+);
 
 NotFound.propTypes = {
   title: PropTypes.string.isRequired,

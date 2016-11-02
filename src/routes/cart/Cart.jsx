@@ -16,12 +16,11 @@ import Snackbar from 'material-ui/Snackbar';
 import IconButton from 'material-ui/IconButton';
 import DeleteIcon from 'material-ui/svg-icons/action/delete';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import Layout from '../../components/Layout';
 import Link from '../../components/Link';
 import constants from '../../constants';
 import s from './Cart.css';
-import * as cartActions from '../../actions/cart';
+import { addToCart, removeFromCart } from '../../actions/cart';
 
 class Cart extends Component {
   constructor(props) {
@@ -32,24 +31,24 @@ class Cart extends Component {
     };
   }
 
-  addToCart = () => {
+  handleAddToCart = () => {
     const product = this.state.removedProduct;
 
     this.setState({
       snackBarIsOpen: false,
       removedProduct: null,
-    }, () => this.props.addToCart(product));
+    }, () => this.props.dispatch(addToCart(product)));
   };
 
-  removeFromCart = (product) => {
+  handleRemoveFromCart = (product) => {
     this.setState({
       snackBarIsOpen: true,
       removedProduct: product,
-    }, () => this.props.removeFromCart(product));
+    }, () => this.props.dispatch(removeFromCart(product)));
   };
 
   render() {
-    const products = this.props.cart.products;
+    const products = this.props.cart;
     let total = 0;
 
     return (
@@ -71,7 +70,7 @@ class Cart extends Component {
                 </TableHeader>
                 <TableBody displayRowCheckbox={false}>
                   {_.uniqWith(products, _.isEqual).map((product, index) => {
-                    const amount = _.filter(products, item => _.isEqual(product, item)).length;
+                    const amount = products.filter(item => _.isEqual(product, item)).length;
 
                     total += product.price * amount;
 
@@ -92,7 +91,7 @@ class Cart extends Component {
                         <TableRowColumn>{`${product.price}$`}</TableRowColumn>
                         <TableRowColumn>{amount}</TableRowColumn>
                         <TableRowColumn style={{ textAlign: 'right' }}>
-                          <IconButton onTouchTap={() => this.removeFromCart(product)}>
+                          <IconButton onTouchTap={() => this.handleRemoveFromCart(product)}>
                             <DeleteIcon />
                           </IconButton>
                         </TableRowColumn>
@@ -117,7 +116,7 @@ class Cart extends Component {
               `${this.state.removedProduct.name} has been removed from your cart` : ''}
             action="undo"
             autoHideDuration={constants.autoHide}
-            onActionTouchTap={this.addToCart}
+            onActionTouchTap={this.handleAddToCart}
             onRequestClose={() => this.setState({ snackBarIsOpen: false })}
           />
         </div>
@@ -141,22 +140,15 @@ Cart.propTypes = {
       vanityName: PropTypes.string.isRequired,
     }),
   })),
-  addToCart: PropTypes.func,
-  removeFromCart: PropTypes.func,
+  dispatch: PropTypes.func,
 };
 
 function mapStateToProps(state) {
   return {
-    cart: state.cart,
+    cart: state.cart.products,
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    ...cartActions,
-  }, dispatch);
-}
-
-const ConnectedCart = connect(mapStateToProps, mapDispatchToProps)(Cart);
+const ConnectedCart = connect(mapStateToProps)(Cart);
 
 export default withStyles(s)(ConnectedCart);

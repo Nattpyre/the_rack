@@ -25,8 +25,6 @@ function createFetchKnowingCookie({ cookie }) {
     return (url, options = {}) => {
       const isLocalUrl = /^\/($|[^\/])/.test(url);
 
-      // pass cookie only for itself.
-      // We can't know cookies for other sites BTW
       if (isLocalUrl && options.credentials === 'include') {
         const headers = {
           ...options.headers,

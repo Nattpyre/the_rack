@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './ErrorPage.css';
 
-function ErrorPage({ error }) {
+const ErrorPage = ({ error }) => {
   if (process.env.NODE_ENV !== 'production') {
     return (
       <div>
@@ -19,7 +19,7 @@ function ErrorPage({ error }) {
       <p>Sorry, a critical error occurred on this page.</p>
     </div>
   );
-}
+};
 
 ErrorPage.propTypes = {
   error: PropTypes.object.isRequired,
